@@ -8,7 +8,7 @@ try {
     // Since it's a browser script with const THEORY = ..., we can try to simplisticly eval it
     // or just require it if we modify it to be a module (which it does at the bottom)
 
-    const theory = require('./js/theory.js');
+    const theory = require('./theory.js');
 
     if (!theory.THEORY || !Array.isArray(theory.THEORY)) {
         console.error("THEORY array is missing or invalid");
