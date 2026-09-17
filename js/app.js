@@ -24,7 +24,7 @@ const AppState = {
 
 
 
-// DOM Elements
+//DOM Elements
 const DOM = {
     // Practice Mode
     practiceMode: document.getElementById('practice-mode'),
