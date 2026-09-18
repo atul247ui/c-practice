@@ -1131,6 +1131,393 @@ printf("Error: %s", strerror(errno));</code></pre>
     <li>Fail gracefully; don't just crash.</li>
 </ul>
         `
+    },
+    // ===== DATA STRUCTURES =====
+    {
+        id: 26,
+        title: "Linked Lists",
+        category: "linkedlists",
+        content: `
+<h3>What Is a Linked List?</h3>
+<p>
+    An array stores elements in contiguous memory, so inserting or removing something in the middle means shifting every element after it. A <strong>linked list</strong> solves this by giving up contiguity: each element (called a <strong>node</strong>) stores its data plus a <strong>pointer</strong> to the next node. The list itself is just a pointer to the first node, called the <strong>head</strong>.
+</p>
+<p>
+    Think of it like a treasure hunt: each clue (node) tells you where the next clue is, rather than all the clues sitting in one numbered row.
+</p>
+
+<h3>Defining a Node</h3>
+<pre><code>struct Node {
+    int data;
+    struct Node *next;
+};</code></pre>
+<p>
+    A node refers to its own type through a pointer, which is legal in C because pointers just store addresses — the compiler doesn't need to know the full size of what they point to.
+</p>
+
+<h3>Building and Traversing a List</h3>
+<pre><code>struct Node *head = NULL;
+
+// Insert 10 at the front
+struct Node *newNode = malloc(sizeof(struct Node));
+newNode->data = 10;
+newNode->next = head;
+head = newNode;
+
+// Traverse and print every value
+struct Node *cur = head;
+while (cur != NULL) {
+    printf("%d ", cur->data);
+    cur = cur->next;
+}</code></pre>
+<p>
+    The last node's <code>next</code> is always <code>NULL</code> — that's how traversal knows to stop. Forgetting this (or forgetting to <code>malloc</code> a node before using it) is the single most common linked-list bug.
+</p>
+
+<h3>Singly vs. Doubly Linked Lists</h3>
+<ul>
+    <li><strong>Singly linked:</strong> each node points only to the next one. You can only walk forward.</li>
+    <li><strong>Doubly linked:</strong> each node also stores a <code>prev</code> pointer, so you can walk backward too — at the cost of extra memory per node and more pointers to keep consistent.</li>
+    <li><strong>Circular linked:</strong> the last node points back to the head instead of <code>NULL</code>, useful for round-robin style problems.</li>
+</ul>
+
+<h3>Arrays vs. Linked Lists</h3>
+<table class="theory-table">
+    <tr><th>Operation</th><th>Array</th><th>Linked List</th></tr>
+    <tr><td>Access by index</td><td>O(1)</td><td>O(n)</td></tr>
+    <tr><td>Insert/delete at front</td><td>O(n)</td><td>O(1)</td></tr>
+    <tr><td>Insert/delete at end</td><td>O(1)*</td><td>O(n) without a tail pointer</td></tr>
+    <tr><td>Memory layout</td><td>Contiguous</td><td>Scattered, plus pointer overhead</td></tr>
+</table>
+<p>*Amortized, and only if there's spare capacity.</p>
+
+<h3>Common Pitfalls</h3>
+<ul>
+    <li><strong>Memory leaks:</strong> every node you <code>malloc</code> must eventually be <code>free</code>d — deleting a node without freeing it leaks memory.</li>
+    <li><strong>Dangling pointers:</strong> after freeing a node, don't dereference it again.</li>
+    <li><strong>Losing the head:</strong> if you overwrite <code>head</code> before saving a reference to the old first node, the rest of the list becomes unreachable.</li>
+</ul>
+        `
+    },
+    {
+        id: 27,
+        title: "Stacks",
+        category: "stacksqueues",
+        content: `
+<h3>What Is a Stack?</h3>
+<p>
+    A <strong>stack</strong> is a <strong>LIFO</strong> (Last In, First Out) structure — the last item you added is the first one that comes back out. Picture a stack of plates: you place new plates on top, and you take plates off the top. You never pull one from the middle.
+</p>
+
+<h3>Core Operations</h3>
+<ul>
+    <li><strong>push:</strong> add an element to the top.</li>
+    <li><strong>pop:</strong> remove and return the top element.</li>
+    <li><strong>peek / top:</strong> look at the top element without removing it.</li>
+    <li><strong>isEmpty:</strong> check whether the stack has anything in it.</li>
+</ul>
+<p>All of these run in O(1) time, which is exactly why stacks are so widely used.</p>
+
+<h3>Implementing a Stack with an Array</h3>
+<pre><code>#define MAX 100
+
+int stack[MAX];
+int top = -1; // empty stack
+
+void push(int value) {
+    if (top == MAX - 1) {
+        printf("Stack Overflow\\n");
+        return;
+    }
+    stack[++top] = value;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("Stack Underflow\\n");
+        return -1;
+    }
+    return stack[top--];
+}</code></pre>
+<p>
+    <code>top</code> tracks the index of the current top element. <code>top == -1</code> means the stack is empty; trying to <code>pop</code> then is called <strong>underflow</strong>, and trying to <code>push</code> past the array's capacity is <strong>overflow</strong>.
+</p>
+<p>
+    A stack can also be built on top of a linked list (pushing/popping at the head) — that trades a fixed capacity for a little more memory overhead per element.
+</p>
+
+<h3>Where Stacks Show Up</h3>
+<ul>
+    <li><strong>Function calls:</strong> every function call pushes a stack frame (local variables, return address); returning pops it. This is literally called "the call stack."</li>
+    <li><strong>Undo functionality:</strong> each action pushes onto a stack; undo pops the most recent one.</li>
+    <li><strong>Matching brackets/parentheses:</strong> push opening brackets, pop when you see a matching closer.</li>
+    <li><strong>Expression evaluation:</strong> converting infix to postfix, and evaluating postfix expressions.</li>
+    <li><strong>Depth-first search:</strong> explicit stacks (or recursion, which uses the call stack implicitly) drive DFS traversal.</li>
+</ul>
+        `
+    },
+    {
+        id: 28,
+        title: "Queues",
+        category: "stacksqueues",
+        content: `
+<h3>What Is a Queue?</h3>
+<p>
+    A <strong>queue</strong> is a <strong>FIFO</strong> (First In, First Out) structure — the first item added is the first one removed, just like a line at a shop counter. New items join at the <strong>rear</strong>; items leave from the <strong>front</strong>.
+</p>
+
+<h3>Core Operations</h3>
+<ul>
+    <li><strong>enqueue:</strong> add an element at the rear.</li>
+    <li><strong>dequeue:</strong> remove and return the element at the front.</li>
+    <li><strong>peek/front:</strong> look at the front element without removing it.</li>
+    <li><strong>isEmpty / isFull:</strong> capacity checks.</li>
+</ul>
+
+<h3>Implementing a Circular Queue with an Array</h3>
+<p>
+    A naive array queue wastes space: once you dequeue from the front, that slot never gets reused. A <strong>circular queue</strong> fixes this by wrapping the rear index back to 0 with the modulo operator once it reaches the end.
+</p>
+<pre><code>#define MAX 100
+
+int queue[MAX];
+int front = -1, rear = -1;
+
+void enqueue(int value) {
+    if ((rear + 1) % MAX == front) {
+        printf("Queue Full\\n");
+        return;
+    }
+    if (front == -1) front = 0;
+    rear = (rear + 1) % MAX;
+    queue[rear] = value;
+}
+
+int dequeue() {
+    if (front == -1) {
+        printf("Queue Empty\\n");
+        return -1;
+    }
+    int value = queue[front];
+    if (front == rear) {
+        front = rear = -1; // queue just became empty
+    } else {
+        front = (front + 1) % MAX;
+    }
+    return value;
+}</code></pre>
+
+<h3>Variations</h3>
+<ul>
+    <li><strong>Circular queue:</strong> as above — reuses freed slots.</li>
+    <li><strong>Deque (double-ended queue):</strong> allows insertion and removal from both ends.</li>
+    <li><strong>Priority queue:</strong> each element has a priority, and dequeue always returns the highest-priority element rather than the oldest one — usually implemented with a heap, not a plain array.</li>
+</ul>
+
+<h3>Where Queues Show Up</h3>
+<ul>
+    <li><strong>Breadth-first search:</strong> BFS visits nodes level by level using a queue.</li>
+    <li><strong>Task/job scheduling:</strong> processes waiting for CPU time, print jobs waiting for a printer.</li>
+    <li><strong>Buffering:</strong> data arriving faster than it can be processed (I/O buffers, message queues) queues up in order.</li>
+</ul>
+        `
+    },
+    {
+        id: 29,
+        title: "Trees: Binary Trees & BSTs",
+        category: "trees",
+        content: `
+<h3>What Is a Tree?</h3>
+<p>
+    Every structure so far has been <strong>linear</strong> — one element follows another. A <strong>tree</strong> is hierarchical: it starts at a <strong>root</strong> node, and each node can branch out to multiple <strong>children</strong>. A node with no children is called a <strong>leaf</strong>.
+</p>
+<p>
+    A <strong>binary tree</strong> restricts every node to at most two children, conventionally called <code>left</code> and <code>right</code>.
+</p>
+<pre><code>struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};</code></pre>
+
+<h3>Binary Search Trees (BST)</h3>
+<p>
+    A <strong>binary search tree</strong> adds one rule that makes searching fast: for every node, everything in its left subtree is smaller, and everything in its right subtree is larger. That rule alone lets you search, insert, and delete in roughly O(log n) time on a balanced tree — the same idea as binary search, but on a linked structure instead of an array.
+</p>
+<pre><code>struct Node* insert(struct Node* root, int value) {
+    if (root == NULL) {
+        struct Node* node = malloc(sizeof(struct Node));
+        node->data = value;
+        node->left = node->right = NULL;
+        return node;
+    }
+    if (value < root->data)
+        root->left = insert(root->left, value);
+    else if (value > root->data)
+        root->right = insert(root->right, value);
+    return root; // duplicates are ignored here
+}</code></pre>
+<p>
+    Notice the recursion: inserting into a subtree is the same problem as inserting into a tree, just smaller. This pattern — solve it for a subtree, then reattach the result — is the natural way to write most tree operations in C.
+</p>
+
+<h3>Traversals</h3>
+<p>There's no single "correct" order to visit a tree's nodes; which one you use depends on what you need:</p>
+<ul>
+    <li><strong>Inorder</strong> (left, node, right): visits a BST's values in sorted order.</li>
+    <li><strong>Preorder</strong> (node, left, right): useful for copying a tree, since you see the root before its subtrees.</li>
+    <li><strong>Postorder</strong> (left, right, node): useful for deleting a tree, since you free children before their parent.</li>
+</ul>
+<pre><code>void inorder(struct Node* root) {
+    if (root == NULL) return;
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}</code></pre>
+
+<h3>Why Balance Matters</h3>
+<p>
+    A BST's O(log n) performance assumes the tree is roughly balanced. If you insert already-sorted data (1, 2, 3, 4, 5...) into a plain BST, every new node becomes the right child of the previous one — the "tree" degenerates into a linked list, and every operation becomes O(n). Self-balancing trees (AVL trees, red-black trees) exist specifically to prevent this, by restructuring the tree as it grows.
+</p>
+        `
+    },
+    {
+        id: 30,
+        title: "Hashing & Hash Tables",
+        category: "hashing",
+        content: `
+<h3>The Problem Hashing Solves</h3>
+<p>
+    Searching an unsorted array for a value takes O(n) — you might have to check every element. A BST improves that to O(log n). A <strong>hash table</strong> aims for O(1) average-case lookup, insertion, and deletion, by trading the ability to keep things sorted for raw speed.
+</p>
+
+<h3>The Core Idea</h3>
+<p>
+    A <strong>hash function</strong> takes a key (a number, a string, anything) and converts it into an array index. To store or find a value, you compute its hash once and jump straight to that slot — no searching required.
+</p>
+<pre><code>#define TABLE_SIZE 100
+
+int hash(int key) {
+    return key % TABLE_SIZE;
+}</code></pre>
+<p>
+    For string keys, a common approach multiplies a running total by a small prime for each character, then takes the modulus:
+</p>
+<pre><code>unsigned int hashString(char *str) {
+    unsigned int h = 0;
+    while (*str) {
+        h = h * 31 + *str;
+        str++;
+    }
+    return h % TABLE_SIZE;
+}</code></pre>
+
+<h3>Collisions</h3>
+<p>
+    Two different keys can hash to the same index — that's a <strong>collision</strong>, and it's unavoidable once you have more possible keys than table slots (the pigeonhole principle). Two standard ways to handle it:
+</p>
+<ul>
+    <li>
+        <strong>Chaining:</strong> each slot holds a linked list of all the entries that hashed there. Lookup hashes to the right slot, then walks that (hopefully short) list.
+        <pre><code>struct Entry {
+    int key;
+    int value;
+    struct Entry *next;
+};
+struct Entry* table[TABLE_SIZE];</code></pre>
+    </li>
+    <li>
+        <strong>Open addressing:</strong> on a collision, probe for the next free slot in the array itself (linear probing checks slot+1, slot+2, ...). No extra memory for pointers, but the table can fill up and needs careful deletion handling.
+    </li>
+</ul>
+
+<h3>What Makes a Hash Function Good</h3>
+<ul>
+    <li><strong>Deterministic:</strong> the same key always produces the same hash.</li>
+    <li><strong>Uniform:</strong> spreads keys evenly across slots, minimizing collisions.</li>
+    <li><strong>Fast to compute:</strong> the whole point is speed, so the hash itself must be cheap.</li>
+</ul>
+<p>
+    A table that's too full (a high <strong>load factor</strong> — entries divided by slots) starts collapsing toward O(n) performance regardless of the hash function, which is why real hash table implementations resize (rehash into a bigger table) once the load factor crosses a threshold.
+</p>
+
+<h3>Where Hashing Shows Up</h3>
+<p>
+    Dictionaries/maps in higher-level languages (Python's <code>dict</code>, Java's <code>HashMap</code>), caches, database indexing, and duplicate detection are all built on this same idea.
+</p>
+        `
+    },
+    {
+        id: 31,
+        title: "Graphs",
+        category: "graphs",
+        content: `
+<h3>What Is a Graph?</h3>
+<p>
+    A tree is actually a special case of something more general: a <strong>graph</strong> — a set of <strong>vertices</strong> (nodes) connected by <strong>edges</strong>. Unlike a tree, a graph has no single root, and it can have cycles (a path that loops back on itself). Graphs model anything with "things and connections between things": cities and roads, people and friendships, web pages and links.
+</p>
+<ul>
+    <li><strong>Directed graph:</strong> edges have a direction (A → B doesn't imply B → A) — like one-way streets, or "follows" on social media.</li>
+    <li><strong>Undirected graph:</strong> edges go both ways — like a friendship, or a two-way road.</li>
+    <li><strong>Weighted graph:</strong> each edge carries a cost or distance, not just a yes/no connection.</li>
+</ul>
+
+<h3>Representing a Graph in C</h3>
+<p>There are two standard ways to store one, and the right choice depends on how dense the graph is:</p>
+<ul>
+    <li>
+        <strong>Adjacency matrix:</strong> a 2D array where <code>matrix[i][j] = 1</code> means an edge exists from vertex <code>i</code> to vertex <code>j</code>. Checking "is there an edge?" is O(1), but it always uses O(V²) memory, even for a graph with very few edges.
+        <pre><code>int adjMatrix[MAX_V][MAX_V]; // init to 0
+
+void addEdge(int u, int v) {
+    adjMatrix[u][v] = 1;
+    adjMatrix[v][u] = 1; // omit this line for a directed graph
+}</code></pre>
+    </li>
+    <li>
+        <strong>Adjacency list:</strong> for each vertex, keep a list of the vertices it connects to (often a linked list or array per vertex). This uses O(V + E) memory — much better for sparse graphs, which is most real-world graphs.
+    </li>
+</ul>
+
+<h3>Traversals: BFS and DFS</h3>
+<p>
+    The two fundamental ways to visit every vertex reachable from a starting point mirror the stack/queue distinction directly:
+</p>
+<ul>
+    <li>
+        <strong>Breadth-First Search (BFS):</strong> visits all neighbors of the current vertex before moving further out, level by level — using a <strong>queue</strong>. BFS finds the shortest path (by number of edges) in an unweighted graph.
+    </li>
+    <li>
+        <strong>Depth-First Search (DFS):</strong> follows one path as deep as it can go before backtracking — using a <strong>stack</strong> (or recursion, which relies on the call stack). DFS is natural for tasks like detecting cycles or exploring all possibilities.
+    </li>
+</ul>
+<pre><code>int visited[MAX_V];
+
+void bfs(int start, int adjMatrix[MAX_V][MAX_V], int V) {
+    int queue[MAX_V], front = 0, rear = 0;
+    visited[start] = 1;
+    queue[rear++] = start;
+
+    while (front < rear) {
+        int cur = queue[front++];
+        printf("%d ", cur);
+        for (int i = 0; i < V; i++) {
+            if (adjMatrix[cur][i] && !visited[i]) {
+                visited[i] = 1;
+                queue[rear++] = i;
+            }
+        }
+    }
+}</code></pre>
+<p>
+    The <code>visited</code> array is essential: without it, a graph with a cycle would send a naive traversal into an infinite loop.
+</p>
+
+<h3>Where Graphs Show Up</h3>
+<p>
+    GPS route-finding (shortest path algorithms like Dijkstra's build directly on this), social networks, recommendation systems, dependency resolution (build systems, package managers), and network routing are all graph problems underneath.
+</p>
+        `
     }
 ];
 
@@ -1143,7 +1530,12 @@ const THEORY_CATEGORIES = {
     strings: "Strings",
     functions: "Functions",
     pointers: "Pointers",
-    advanced: "Advanced"
+    advanced: "Advanced",
+    linkedlists: "Linked Lists",
+    stacksqueues: "Stacks & Queues",
+    trees: "Trees",
+    hashing: "Hashing",
+    graphs: "Graphs"
 };
 
 if (typeof module !== 'undefined' && module.exports) {

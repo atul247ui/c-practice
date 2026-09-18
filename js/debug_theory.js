@@ -2,7 +2,7 @@
 try {
     const fs = require('fs');
     // Read file directly to check for syntax without module system issues
-    const content = fs.readFileSync('./js/theory.js', 'utf8');
+    const content = fs.readFileSync('./theory.js', 'utf8');
 
     // Try to eval it in a safe context or just ensure it parses
     // Since it's a browser script with const THEORY = ..., we can try to simplisticly eval it

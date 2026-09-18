@@ -36,8 +36,33 @@
                     <span class="stat-value" id="total-count">0</span>
                     <span class="stat-label">Total</span>
                 </div>
+                <button class="settings-btn" id="settings-btn" title="Execution settings">⚙</button>
             </div>
         </header>
+
+        <!-- Settings Modal -->
+        <div class="modal-overlay" id="settings-modal" style="display: none;">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Execution Settings</h3>
+                    <button class="modal-close" id="settings-close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">
+                        Code is graded by actually compiling and running it on
+                        <a href="https://wandbox.org" target="_blank" rel="noopener"><strong>Wandbox</strong></a>
+                        (free, no signup needed). If it's ever unreachable, or you'd rather not
+                        depend on an external service, turn this off to fall back to a rough
+                        offline guess instead.
+                    </p>
+                    <label class="modal-toggle-row">
+                        <span>Real execution (via Wandbox)</span>
+                        <input type="checkbox" id="execution-toggle" checked>
+                    </label>
+                    <div id="settings-status" class="settings-status"></div>
+                </div>
+            </div>
+        </div>
 
         <!-- PRACTICE MODE -->
         <main class="main-content" id="practice-mode">
@@ -161,6 +186,11 @@
                             <option value="functions">Functions</option>
                             <option value="pointers">Pointers</option>
                             <option value="advanced">Advanced</option>
+                            <option value="linkedlists">Linked Lists</option>
+                            <option value="stacksqueues">Stacks &amp; Queues</option>
+                            <option value="trees">Trees</option>
+                            <option value="hashing">Hashing</option>
+                            <option value="graphs">Graphs</option>
                         </select>
                     </div>
                 </div>
@@ -291,6 +321,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
 
     <!-- App Scripts -->
+    <script src="js/config.js"></script>
     <script src="js/questions.js"></script>
     <script src="js/theory.js"></script>
     <script src="js/checker.js"></script>

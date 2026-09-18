@@ -24,7 +24,7 @@ const AppState = {
 
 
 
-//DOM Elements
+// DOM Elements
 const DOM = {
     // Practice Mode
     practiceMode: document.getElementById('practice-mode'),
@@ -63,13 +63,20 @@ const DOM = {
     // Mode Buttons
     learnModeBtn: document.getElementById('learn-mode-btn'),
     practiceModeBtn: document.getElementById('practice-mode-btn'),
-    statsModeBtn: document.getElementById('stats-mode-btn')
+    statsModeBtn: document.getElementById('stats-mode-btn'),
+    // Settings
+    settingsBtn: document.getElementById('settings-btn'),
+    settingsModal: document.getElementById('settings-modal'),
+    settingsCloseBtn: document.getElementById('settings-close-btn'),
+    settingsStatus: document.getElementById('settings-status'),
+    executionToggle: document.getElementById('execution-toggle')
 };
 
 // Category Icons
 const CATEGORY_ICONS = {
     basics: '📘', control: '🔀', loops: '🔄', arrays: '📊',
-    strings: '📝', functions: '⚙️', pointers: '👆', advanced: '🚀'
+    strings: '📝', functions: '⚙️', pointers: '👆', advanced: '🚀',
+    linkedlists: '🔗', stacksqueues: '📚', trees: '🌳', hashing: '#️⃣', graphs: '🕸️'
 };
 
 // ===== INITIALIZATION =====
@@ -324,10 +331,11 @@ function showResultsPlaceholder() {
 }
 
 function showLoading() {
+    const msg = CONFIG.isRealExecutionEnabled() ? 'Compiling & running your code…' : 'Running offline check…';
     DOM.resultsContent.innerHTML = `
         <div class="loading">
             <div class="spinner"></div>
-            <p>Checking your code...</p>
+            <p>${msg}</p>
         </div>
     `;
 }
@@ -340,31 +348,39 @@ function submitCode() {
 
     const code = AppState.editor.getValue();
     showLoading();
+    DOM.submitBtn.disabled = true;
 
-    setTimeout(() => {
-        const results = CodeChecker.checkCode(code, AppState.currentQuestion);
-        displayResults(results);
+    CodeChecker.checkCode(code, AppState.currentQuestion)
+        .then(results => {
+            displayResults(results);
 
-        if (results.allPassed) {
-            if (!AppState.solvedQuestions.includes(AppState.currentQuestion.id)) {
-                AppState.solvedQuestions.push(AppState.currentQuestion.id);
-                localStorage.setItem('solvedQuestions', JSON.stringify(AppState.solvedQuestions));
+            if (results.allPassed) {
+                if (!AppState.solvedQuestions.includes(AppState.currentQuestion.id)) {
+                    AppState.solvedQuestions.push(AppState.currentQuestion.id);
+                    localStorage.setItem('solvedQuestions', JSON.stringify(AppState.solvedQuestions));
 
-                // Add activity
-                addActivity('solved', AppState.currentQuestion.title);
+                    addActivity('solved', AppState.currentQuestion.title);
 
-                // If it was in mistakes, we could mark it as cleared or keep it
-                // For now, let's keep it in mistakes history but maybe note it's solved
-
-                updateStats();
-                renderQuestionsList();
-                stopTimer();
+                    updateStats();
+                    renderQuestionsList();
+                    stopTimer();
+                }
+            } else if (!results.offlineNotice) {
+                // Only record a mistake when this was a real, verified run.
+                recordMistake(AppState.currentQuestion);
             }
-        } else {
-            // RECORD MISTAKE
-            recordMistake(AppState.currentQuestion);
-        }
-    }, 800);
+        })
+        .catch(err => {
+            DOM.resultsContent.innerHTML = `
+                <div class="results-summary failure">
+                    <h3>⚠️ Couldn't check your code</h3>
+                    <p>${err.message || 'Something went wrong reaching the checker.'}</p>
+                </div>
+            `;
+        })
+        .finally(() => {
+            DOM.submitBtn.disabled = false;
+        });
 }
 
 function recordMistake(question) {
@@ -391,7 +407,13 @@ function displayResults(results) {
     const summaryIcon = results.allPassed ? '🎉' : '❌';
     const summaryText = results.allPassed ? 'All Tests Passed!' : 'Some Tests Failed';
 
-    let html = `
+    let html = '';
+
+    if (results.offlineNotice) {
+        html += `<div class="offline-banner">⚠️ ${results.offlineNotice}</div>`;
+    }
+
+    html += `
         <div class="results-summary ${summaryClass}">
             <h3>${summaryIcon} ${summaryText}</h3>
             <p>${results.passed}/${results.total} test cases passed</p>
@@ -402,21 +424,46 @@ function displayResults(results) {
     results.testResults.forEach(test => {
         const statusClass = test.passed ? 'passed' : 'failed';
         const statusIcon = test.passed ? '✓' : '✗';
+        const statusLabel = test.offline ? (test.passed ? 'Looks OK' : 'Looks Off') : (test.passed ? 'Passed' : 'Failed');
+
         html += `
             <div class="test-case">
                 <div class="test-case-header">
                     <span class="test-case-name">${test.name}</span>
-                    <span class="test-case-status ${statusClass}">${statusIcon} ${test.passed ? 'Passed' : 'Failed'}</span>
+                    <span class="test-case-status ${statusClass}">${statusIcon} ${statusLabel}</span>
                 </div>
                 <div class="test-case-body">
+        `;
+
+        if (test.showOutputBoxes && test.userOutput !== undefined) {
+            html += `
                     <div class="test-detail">
-                        <div class="test-detail-label">User Output</div>
-                        <div class="test-detail-value user-output">${test.userOutput}</div>
+                        <div class="test-detail-label">Program Output</div>
+                        <div class="test-detail-value user-output">${escapeHtml(test.userOutput)}</div>
                     </div>
+            `;
+        }
+        if (test.showOutputBoxes && test.expectedOutput !== undefined) {
+            html += `
                     <div class="test-detail">
                         <div class="test-detail-label">Expected Output</div>
-                        <div class="test-detail-value">${test.expectedOutput}</div>
+                        <div class="test-detail-value">${escapeHtml(test.expectedOutput)}</div>
                     </div>
+            `;
+        }
+        if (test.feedback) {
+            html += `<div class="test-feedback">${escapeHtml(test.feedback)}</div>`;
+        }
+        if (test.error) {
+            html += `
+                    <div class="test-detail">
+                        <div class="test-detail-label">Error</div>
+                        <div class="test-detail-value error-output">${escapeHtml(test.error)}</div>
+                    </div>
+            `;
+        }
+
+        html += `
                 </div>
             </div>
         `;
@@ -424,6 +471,12 @@ function displayResults(results) {
 
     html += '</div>';
     DOM.resultsContent.innerHTML = html;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
 }
 
 function resetCode() {
@@ -591,6 +644,35 @@ function selectTopic(topic) {
     renderTopicsList(DOM.categoryFilter.value);
 }
 
+// ===== SETTINGS (real execution on/off) =====
+function updateSettingsIndicator() {
+    const active = CONFIG.isRealExecutionEnabled();
+    DOM.settingsBtn.classList.toggle('active', active);
+    DOM.settingsBtn.title = active
+        ? 'Real execution (Wandbox) is on'
+        : 'Real execution is off — using offline check only';
+    if (DOM.executionToggle) DOM.executionToggle.checked = active;
+}
+
+function openSettings() {
+    if (DOM.executionToggle) DOM.executionToggle.checked = CONFIG.isRealExecutionEnabled();
+    DOM.settingsStatus.textContent = '';
+    DOM.settingsModal.style.display = 'flex';
+}
+
+function closeSettings() {
+    DOM.settingsModal.style.display = 'none';
+}
+
+function toggleRealExecution() {
+    const enabled = DOM.executionToggle.checked;
+    CONFIG.setRealExecutionEnabled(enabled);
+    updateSettingsIndicator();
+    DOM.settingsStatus.textContent = enabled
+        ? 'Real execution is on — code is compiled and run on Wandbox.'
+        : 'Real execution is off — falling back to a rough offline guess.';
+}
+
 // ===== EVENT LISTENERS =====
 DOM.submitBtn.addEventListener('click', submitCode);
 DOM.resetBtn.addEventListener('click', resetCode);
@@ -608,6 +690,12 @@ DOM.searchInput.addEventListener('input', (e) => {
     AppState.searchQuery = e.target.value;
     filterQuestions();
 });
+DOM.settingsBtn.addEventListener('click', openSettings);
+DOM.settingsCloseBtn.addEventListener('click', closeSettings);
+if (DOM.executionToggle) DOM.executionToggle.addEventListener('change', toggleRealExecution);
+DOM.settingsModal.addEventListener('click', (e) => {
+    if (e.target === DOM.settingsModal) closeSettings();
+});
 
 // Filter tabs
 document.querySelectorAll('.filter-tab').forEach(tab => {
@@ -620,6 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderQuestionsList();
     renderTopicsList();
     updateStats();
+    updateSettingsIndicator();
 
     if (QUESTIONS.length > 0) {
         setTimeout(() => selectQuestion(QUESTIONS[0]), 500);

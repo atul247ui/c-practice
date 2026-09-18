@@ -45,10 +45,10 @@ const QUESTIONS = [
         id: 5,
         title: "Quotient and Remainder",
         difficulty: "easy",
-        description: `Write a C program that reads two integers and prints both quotient and remainder.`,
+        description: `Write a C program that reads two integers and prints both quotient and remainder in the exact format: Quotient: X, Remainder: Y`,
         examples: [{ input: "17 5", output: "Quotient: 3, Remainder: 2" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int a, b;\n    // Calculate quotient and remainder\n    \n    return 0;\n}`,
-        testCases: [{ name: "Division Test", input: "17 5", expectedOutput: "3 2", checkFunction: (code) => code.includes('/') && code.includes('%') }]
+        testCases: [{ name: "Division Test", input: "17 5", expectedOutput: "Quotient: 3, Remainder: 2" }]
     },
     {
         id: 6,
@@ -117,7 +117,7 @@ const QUESTIONS = [
         id: 13,
         title: "Calculate Area of Circle",
         difficulty: "easy",
-        description: `Write a C program to calculate the area of a circle given its radius. Use PI = 3.14159`,
+        description: `Write a C program to calculate the area of a circle given its radius. Use PI = 3.14159 and print the result rounded to exactly 2 decimal places (e.g. with %.2f).`,
         examples: [{ input: "5", output: "78.54" }],
         starterCode: `#include <stdio.h>\n#define PI 3.14159\n\nint main() {\n    float radius;\n    // Calculate area\n    \n    return 0;\n}`,
         testCases: [{ name: "Area Test", input: "5", expectedOutput: "78.54", checkFunction: (code) => code.includes('*') && (code.includes('PI') || code.includes('3.14')) }]
@@ -167,7 +167,7 @@ const QUESTIONS = [
         description: `Write a C program to print the multiplication table of a number (1 to 10).`,
         examples: [{ input: "5", output: "5 10 15 20 25 30 35 40 45 50" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int n;\n    // Print table\n    \n    return 0;\n}`,
-        testCases: [{ name: "Table Test", input: "5", expectedOutput: "5 10 15", checkFunction: (code) => code.includes('for') && code.includes('*') }]
+        testCases: [{ name: "Table Test", input: "5", expectedOutput: "5 10 15 20 25 30 35 40 45 50" }]
     },
     {
         id: 19,
@@ -310,19 +310,19 @@ const QUESTIONS = [
         id: 34,
         title: "Pyramid Star Pattern",
         difficulty: "medium",
-        description: `Print a pyramid pattern of stars centered.`,
+        description: `Print a pyramid pattern of stars, centered with leading spaces (see example — match the spacing exactly).`,
         examples: [{ input: "4", output: "   *\\n  ***\\n *****\\n*******" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int n;\n    // Print pyramid\n    \n    return 0;\n}`,
-        testCases: [{ name: "Pyramid Test", input: "4", expectedOutput: "*\n***\n*****", checkFunction: (code) => code.includes('for') && code.includes(' ') }]
+        testCases: [{ name: "Pyramid Test", input: "4", expectedOutput: "   *\n  ***\n *****\n*******" }]
     },
     {
         id: 35,
         title: "Diamond Star Pattern",
         difficulty: "hard",
-        description: `Print a diamond pattern of stars.`,
+        description: `Print a diamond pattern of stars, with leading spaces so it's centered (see example — match the spacing exactly).`,
         examples: [{ input: "3", output: "  *\\n ***\\n*****\\n ***\\n  *" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int n;\n    // Print diamond\n    \n    return 0;\n}`,
-        testCases: [{ name: "Diamond Test", input: "3", expectedOutput: "*\n***\n*****\n***\n*", checkFunction: (code) => code.includes('for') }]
+        testCases: [{ name: "Diamond Test", input: "3", expectedOutput: "  *\n ***\n*****\n ***\n  *" }]
     },
     {
         id: 36,
@@ -349,7 +349,7 @@ const QUESTIONS = [
         description: `Print a hollow square pattern of stars.`,
         examples: [{ input: "4", output: "****\\n*  *\\n*  *\\n****" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int n;\n    // Print hollow square\n    \n    return 0;\n}`,
-        testCases: [{ name: "Square Test", input: "4", expectedOutput: "****\n*  *", checkFunction: (code) => code.includes('for') && code.includes('if') }]
+        testCases: [{ name: "Square Test", input: "4", expectedOutput: "****\n*  *\n*  *\n****" }]
     },
     {
         id: 39,
@@ -364,10 +364,10 @@ const QUESTIONS = [
         id: 40,
         title: "Butterfly Pattern",
         difficulty: "hard",
-        description: `Print a butterfly pattern using stars.`,
+        description: `Print a butterfly pattern using stars (see example — match the spacing exactly).`,
         examples: [{ input: "3", output: "*    *\\n**  **\\n******\\n**  **\\n*    *" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int n;\n    // Print butterfly\n    \n    return 0;\n}`,
-        testCases: [{ name: "Butterfly Test", input: "3", expectedOutput: "*", checkFunction: (code) => code.includes('for') }]
+        testCases: [{ name: "Butterfly Test", input: "3", expectedOutput: "*    *\n**  **\n******\n**  **\n*    *" }]
     },
 
     // ===== ARRAY QUESTIONS (41-55) =====
@@ -420,10 +420,10 @@ const QUESTIONS = [
         id: 46,
         title: "Count Even and Odd",
         difficulty: "easy",
-        description: `Count even and odd numbers in an array.`,
+        description: `Count even and odd numbers in an array and print them in the exact format: Even: X, Odd: Y`,
         examples: [{ input: "6\\n1 2 3 4 5 6", output: "Even: 3, Odd: 3" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int n, arr[100];\n    // Count even and odd\n    \n    return 0;\n}`,
-        testCases: [{ name: "Count Test", input: "6\n1 2 3 4 5 6", expectedOutput: "3 3", checkFunction: (code) => code.includes('%') && code.includes('2') }]
+        testCases: [{ name: "Count Test", input: "6\n1 2 3 4 5 6", expectedOutput: "Even: 3, Odd: 3" }]
     },
     {
         id: 47,
@@ -539,10 +539,10 @@ const QUESTIONS = [
         id: 59,
         title: "Count Vowels and Consonants",
         difficulty: "easy",
-        description: `Count the number of vowels and consonants in a string.`,
+        description: `Count the number of vowels and consonants in a string and print them in the exact format: Vowels: X, Consonants: Y`,
         examples: [{ input: "hello", output: "Vowels: 2, Consonants: 3" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    char str[100];\n    // Count vowels and consonants\n    \n    return 0;\n}`,
-        testCases: [{ name: "Count Test", input: "hello", expectedOutput: "2 3", checkFunction: (code) => code.includes('if') && (code.includes("'a'") || code.includes('aeiou')) }]
+        testCases: [{ name: "Count Test", input: "hello", expectedOutput: "Vowels: 2, Consonants: 3" }]
     },
     {
         id: 60,
@@ -649,10 +649,10 @@ const QUESTIONS = [
         id: 71,
         title: "Tower of Hanoi",
         difficulty: "hard",
-        description: `Solve Tower of Hanoi for N disks. Print each move.`,
+        description: `Solve Tower of Hanoi for N disks. Print each move in the exact format: Move disk X from A to B`,
         examples: [{ input: "2", output: "Move disk 1 from A to B\\nMove disk 2 from A to C\\nMove disk 1 from B to C" }],
         starterCode: `#include <stdio.h>\n\nvoid hanoi(int n, char from, char to, char aux) {\n    // Implement\n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    hanoi(n, 'A', 'C', 'B');\n    return 0;\n}`,
-        testCases: [{ name: "Hanoi Test", input: "2", expectedOutput: "Move", checkFunction: (code) => code.includes('hanoi') && code.includes('printf') }]
+        testCases: [{ name: "Hanoi Test", input: "2", expectedOutput: "Move disk 1 from A to B\nMove disk 2 from A to C\nMove disk 1 from B to C" }]
     },
     {
         id: 72,
@@ -736,6 +736,169 @@ const QUESTIONS = [
         examples: [{ input: "2 2\\n1 2\\n3 4\\n2 2\\n5 6\\n7 8", output: "19 22\\n43 50" }],
         starterCode: `#include <stdio.h>\n\nint main() {\n    int r1, c1, r2, c2;\n    int a[10][10], b[10][10], c[10][10];\n    // Multiply matrices\n    \n    return 0;\n}`,
         testCases: [{ name: "Multiply Test", input: "2 2\n1 2\n3 4\n2 2\n5 6\n7 8", expectedOutput: "19 22\n43 50", checkFunction: (code) => code.includes('[') && code.includes('*') && code.includes('for') }]
+    },
+    // ===== DATA STRUCTURES =====
+    {
+        id: 81,
+        title: "Create and Print a Linked List",
+        difficulty: "easy",
+        description: `Build a singly linked list by appending n values one after another, then print all values space-separated in list order.`,
+        examples: [{ input: "5\\n10 20 30 40 50", output: "10 20 30 40 50" }],
+        starterCode: `#include <stdio.h>\n#include <stdlib.h>\n\nstruct Node {\n    int data;\n    struct Node *next;\n};\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    struct Node *head = NULL, *tail = NULL;\n    // Read n values and append each as a new node\n    \n    // Traverse and print all values, space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Build List Test", input: "5\n10 20 30 40 50", expectedOutput: "10 20 30 40 50" }]
+    },
+    {
+        id: 82,
+        title: "Insert at the Beginning",
+        difficulty: "easy",
+        description: `Build a linked list from n values (appended in order), then insert one more value at the front of the list. Print all values space-separated.`,
+        examples: [{ input: "4\\n1 2 3 4\\n99", output: "99 1 2 3 4" }],
+        starterCode: `#include <stdio.h>\n#include <stdlib.h>\n\nstruct Node {\n    int data;\n    struct Node *next;\n};\n\nstruct Node* insertAtBeginning(struct Node* head, int value) {\n    // Create a node, point it at head, return it as the new head\n    \n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    struct Node *head = NULL, *tail = NULL;\n    // Build the list from n values\n    \n    int newVal;\n    scanf("%d", &newVal);\n    head = insertAtBeginning(head, newVal);\n    // Print all values, space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Insert Front Test", input: "4\n1 2 3 4\n99", expectedOutput: "99 1 2 3 4" }]
+    },
+    {
+        id: 83,
+        title: "Reverse a Linked List",
+        difficulty: "medium",
+        description: `Build a linked list from n values, reverse it in place (iteratively, using pointers — not by re-reading input backwards), then print all values space-separated.`,
+        examples: [{ input: "5\\n1 2 3 4 5", output: "5 4 3 2 1" }],
+        starterCode: `#include <stdio.h>\n#include <stdlib.h>\n\nstruct Node {\n    int data;\n    struct Node *next;\n};\n\nstruct Node* reverse(struct Node* head) {\n    struct Node *prev = NULL, *cur = head, *next;\n    // Walk the list, reversing each next pointer\n    \n    return prev;\n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    struct Node *head = NULL, *tail = NULL;\n    // Build the list from n values\n    \n    head = reverse(head);\n    // Print all values, space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Reverse Test", input: "5\n1 2 3 4 5", expectedOutput: "5 4 3 2 1" }]
+    },
+    {
+        id: 84,
+        title: "Stack: Push and Pop",
+        difficulty: "easy",
+        description: `Implement a stack with push and pop using an array. Push n values in order, then pop k values and print each popped value space-separated, in the order they come off the stack.`,
+        examples: [{ input: "5\\n10 20 30 40 50\\n3", output: "50 40 30" }],
+        starterCode: `#include <stdio.h>\n#define MAX 100\n\nint stack[MAX];\nint top = -1;\n\nvoid push(int v) {\n    // Push v onto the stack\n    \n}\n\nint pop() {\n    // Pop and return the top value\n    \n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    for (int i = 0; i < n; i++) {\n        int v; scanf("%d", &v);\n        push(v);\n    }\n    int k;\n    scanf("%d", &k);\n    // Pop k times, printing each value space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Push Pop Test", input: "5\n10 20 30 40 50\n3", expectedOutput: "50 40 30" }]
+    },
+    {
+        id: 85,
+        title: "Balanced Parentheses",
+        difficulty: "medium",
+        description: `Using a stack, check whether a string of brackets ((), [], {}) is balanced. Print exactly "Balanced" or "Not Balanced".`,
+        examples: [{ input: "{[()]}", output: "Balanced" }],
+        starterCode: `#include <stdio.h>\n#include <string.h>\n#define MAX 200\n\nint main() {\n    char str[MAX];\n    scanf("%s", str);\n    char stack[MAX];\n    int top = -1;\n    int balanced = 1;\n    // Push opening brackets; on a closing bracket, check it matches the top\n    \n    printf(balanced ? "Balanced" : "Not Balanced");\n    printf("\\n");\n    return 0;\n}`,
+        testCases: [{ name: "Balanced Test", input: "{[()]}", expectedOutput: "Balanced" }]
+    },
+    {
+        id: 86,
+        title: "Reverse a String Using a Stack",
+        difficulty: "medium",
+        description: `Push every character of a string onto a stack, then pop them all off to print the string reversed.`,
+        examples: [{ input: "programming", output: "gnimmargorp" }],
+        starterCode: `#include <stdio.h>\n#include <string.h>\n#define MAX 200\n\nint main() {\n    char str[MAX];\n    scanf("%s", str);\n    int len = strlen(str);\n    char stack[MAX];\n    int top = -1;\n    // Push every character, then pop them all to print in reverse\n    \n    printf("\\n");\n    return 0;\n}`,
+        testCases: [{ name: "Reverse String Test", input: "programming", expectedOutput: "gnimmargorp" }]
+    },
+    {
+        id: 87,
+        title: "Queue: Enqueue and Dequeue",
+        difficulty: "easy",
+        description: `Implement a queue with enqueue and dequeue using an array. Enqueue n values in order, then dequeue k values and print each dequeued value space-separated, in the order they come off the queue.`,
+        examples: [{ input: "5\\n10 20 30 40 50\\n3", output: "10 20 30" }],
+        starterCode: `#include <stdio.h>\n#define MAX 100\n\nint queue[MAX];\nint front = -1, rear = -1;\n\nvoid enqueue(int v) {\n    // Add v to the rear\n    \n}\n\nint dequeue() {\n    // Remove and return the value at the front\n    \n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    for (int i = 0; i < n; i++) {\n        int v; scanf("%d", &v);\n        enqueue(v);\n    }\n    int k;\n    scanf("%d", &k);\n    // Dequeue k times, printing each value space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Enqueue Dequeue Test", input: "5\n10 20 30 40 50\n3", expectedOutput: "10 20 30" }]
+    },
+    {
+        id: 88,
+        title: "Circular Queue",
+        difficulty: "medium",
+        description: `Implement a circular queue of fixed size 5 (indices wrap using the modulo operator so freed slots get reused). Run this exact sequence: enqueue 1, 2, 3, 4, 5; dequeue twice; enqueue 6, 7. Then print the queue's remaining contents from front to rear, space-separated. This program takes no input.`,
+        examples: [{ input: "None", output: "3 4 5 6 7" }],
+        starterCode: `#include <stdio.h>\n#define SIZE 5\n\nint cqueue[SIZE];\nint front = -1, rear = -1;\n\nvoid enqueue(int v) {\n    // Add v at rear, wrapping with % SIZE; handle the full case\n    \n}\n\nint dequeue() {\n    // Remove from front, wrapping with % SIZE; handle the empty case\n    \n}\n\nint main() {\n    enqueue(1); enqueue(2); enqueue(3); enqueue(4); enqueue(5);\n    dequeue(); dequeue();\n    enqueue(6); enqueue(7);\n    // Print remaining contents from front to rear, space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Wraparound Test", input: "None", expectedOutput: "3 4 5 6 7" }]
+    },
+    {
+        id: 89,
+        title: "Generate Binary Numbers Using a Queue",
+        difficulty: "hard",
+        description: `Using a queue, generate the binary representations of the numbers 1 to n in order. Start by enqueueing "1". Then, n times: dequeue a string s, print it, and enqueue s+"0" followed by s+"1". Print all n results space-separated.`,
+        examples: [{ input: "5", output: "1 10 11 100 101" }],
+        starterCode: `#include <stdio.h>\n#include <string.h>\n#define MAX 1000\n\nchar queue[MAX][20];\nint front = 0, rear = 0;\n\nvoid enqueue(char *s) { strcpy(queue[rear++], s); }\nvoid dequeue(char *out) { strcpy(out, queue[front++]); }\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    enqueue("1");\n    // Dequeue, print, and enqueue two children, n times\n    \n    return 0;\n}`,
+        testCases: [{ name: "Binary Numbers Test", input: "5", expectedOutput: "1 10 11 100 101" }]
+    },
+    {
+        id: 90,
+        title: "Build a BST and Print Inorder",
+        difficulty: "medium",
+        description: `Insert n values into a binary search tree one at a time, then print an inorder traversal (left, node, right) space-separated. An inorder traversal of a BST always comes out sorted.`,
+        examples: [{ input: "6\\n50 30 70 20 40 60", output: "20 30 40 50 60 70" }],
+        starterCode: `#include <stdio.h>\n#include <stdlib.h>\n\nstruct Node { int data; struct Node *left, *right; };\n\nstruct Node* insert(struct Node* root, int v) {\n    // If root is NULL, create and return a new node\n    // Otherwise recurse left or right based on v vs root->data\n    \n}\n\nvoid inorder(struct Node* root) {\n    // Recursively print left, then this node, then right\n    \n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    struct Node *root = NULL;\n    for (int i = 0; i < n; i++) {\n        int v; scanf("%d", &v);\n        root = insert(root, v);\n    }\n    inorder(root);\n    printf("\\n");\n    return 0;\n}`,
+        testCases: [{ name: "Inorder Test", input: "6\n50 30 70 20 40 60", expectedOutput: "20 30 40 50 60 70" }]
+    },
+    {
+        id: 91,
+        title: "Height of a Binary Tree",
+        difficulty: "medium",
+        description: `Insert n values into a BST, then print its height — the number of edges on the longest path from root to a leaf (a tree with a single node has height 0, an empty tree has height -1).`,
+        examples: [{ input: "7\\n50 30 70 20 40 60 80", output: "2" }],
+        starterCode: `#include <stdio.h>\n#include <stdlib.h>\n\nstruct Node { int data; struct Node *left, *right; };\n\nstruct Node* insert(struct Node* root, int v) {\n    // Same BST insert as before\n    \n}\n\nint height(struct Node* root) {\n    // Empty tree: -1. Otherwise 1 + max(height(left), height(right))\n    \n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    struct Node *root = NULL;\n    for (int i = 0; i < n; i++) {\n        int v; scanf("%d", &v);\n        root = insert(root, v);\n    }\n    printf("%d\\n", height(root));\n    return 0;\n}`,
+        testCases: [{ name: "Height Test", input: "7\n50 30 70 20 40 60 80", expectedOutput: "2" }]
+    },
+    {
+        id: 92,
+        title: "Count Leaf Nodes in a Binary Tree",
+        difficulty: "medium",
+        description: `Insert n values into a BST, then print the number of leaf nodes (nodes with no children).`,
+        examples: [{ input: "7\\n50 30 70 20 40 60 80", output: "4" }],
+        starterCode: `#include <stdio.h>\n#include <stdlib.h>\n\nstruct Node { int data; struct Node *left, *right; };\n\nstruct Node* insert(struct Node* root, int v) {\n    // Same BST insert as before\n    \n}\n\nint countLeaves(struct Node* root) {\n    // A node with no left and no right child is a leaf\n    \n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    struct Node *root = NULL;\n    for (int i = 0; i < n; i++) {\n        int v; scanf("%d", &v);\n        root = insert(root, v);\n    }\n    printf("%d\\n", countLeaves(root));\n    return 0;\n}`,
+        testCases: [{ name: "Leaf Count Test", input: "7\n50 30 70 20 40 60 80", expectedOutput: "4" }]
+    },
+    {
+        id: 93,
+        title: "Simple Hash Function",
+        difficulty: "easy",
+        description: `Implement the hash function hash(key) = key % 7. Read n keys and print hash(key) for each, space-separated, in input order.`,
+        examples: [{ input: "5\\n10 15 23 7 21", output: "3 1 2 0 0" }],
+        starterCode: `#include <stdio.h>\n#define TABLE_SIZE 7\n\nint hashFn(int key) {\n    return key % TABLE_SIZE;\n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    // Read n keys, print hashFn(key) for each, space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Hash Function Test", input: "5\n10 15 23 7 21", expectedOutput: "3 1 2 0 0" }]
+    },
+    {
+        id: 94,
+        title: "Count Frequency Using Hashing",
+        difficulty: "medium",
+        description: `Using a hash table (a count array indexed by value % 101), count how many times each value appears in an array of n integers. Print each distinct value in the order it first appeared, formatted as value:count, space-separated.`,
+        examples: [{ input: "6\\n4 2 4 5 2 4", output: "4:3 2:2 5:1" }],
+        starterCode: `#include <stdio.h>\n#define TABLE_SIZE 101\n\nint count[TABLE_SIZE];\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    int arr[1000];\n    // Read values, track counts by hashing (value % TABLE_SIZE),\n    // and remember first-occurrence order\n    \n    // Print "value:count" for each distinct value, in first-seen order\n    \n    return 0;\n}`,
+        testCases: [{ name: "Frequency Test", input: "6\n4 2 4 5 2 4", expectedOutput: "4:3 2:2 5:1" }]
+    },
+    {
+        id: 95,
+        title: "Detect Duplicates Using Hashing",
+        difficulty: "easy",
+        description: `Using a hash table (a boolean "seen" array indexed by value % 1009) check if an array of n integers contains any duplicate. Print exactly "Duplicate Found" or "No Duplicates".`,
+        examples: [{ input: "5\\n1 2 3 4 2", output: "Duplicate Found" }],
+        starterCode: `#include <stdio.h>\n#define TABLE_SIZE 1009\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    int seen[TABLE_SIZE] = {0};\n    int duplicate = 0;\n    // For each value, check/set seen[value % TABLE_SIZE]\n    \n    printf(duplicate ? "Duplicate Found" : "No Duplicates");\n    printf("\\n");\n    return 0;\n}`,
+        testCases: [{ name: "Duplicate Test", input: "5\n1 2 3 4 2", expectedOutput: "Duplicate Found" }]
+    },
+    {
+        id: 96,
+        title: "Build a Graph and Print Its Adjacency Matrix",
+        difficulty: "medium",
+        description: `Read the number of vertices V and edges E, then E pairs "a b" describing an undirected edge between vertex a and vertex b. Build the adjacency matrix and print it as V rows of V space-separated 0/1 values.`,
+        examples: [{ input: "4 4\\n0 1\\n0 2\\n1 3\\n2 3", output: "0 1 1 0\\n1 0 0 1\\n1 0 0 1\\n0 1 1 0" }],
+        starterCode: `#include <stdio.h>\n#define MAX 20\n\nint adj[MAX][MAX];\n\nint main() {\n    int v, e;\n    scanf("%d %d", &v, &e);\n    // Read e edges, setting adj[a][b] and adj[b][a] to 1\n    \n    // Print the v x v matrix, one row per line, space-separated\n    \n    return 0;\n}`,
+        testCases: [{ name: "Adjacency Matrix Test", input: "4 4\n0 1\n0 2\n1 3\n2 3", expectedOutput: "0 1 1 0\n1 0 0 1\n1 0 0 1\n0 1 1 0" }]
+    },
+    {
+        id: 97,
+        title: "BFS Traversal of a Graph",
+        difficulty: "medium",
+        description: `Read V, E, E edges, and a start vertex. Using a queue, print the breadth-first traversal order starting from that vertex, space-separated. When visiting a vertex's neighbors, check them in increasing order of vertex number.`,
+        examples: [{ input: "4 4\\n0 1\\n0 2\\n1 3\\n2 3\\n0", output: "0 1 2 3" }],
+        starterCode: `#include <stdio.h>\n#define MAX 20\n\nint adj[MAX][MAX];\nint visited[MAX];\n\nvoid bfs(int start, int v) {\n    int queue[MAX], front = 0, rear = 0;\n    // Standard queue-based BFS: mark visited, enqueue,\n    // then repeatedly dequeue, print, and enqueue unvisited neighbors\n    \n}\n\nint main() {\n    int v, e;\n    scanf("%d %d", &v, &e);\n    for (int i = 0; i < e; i++) {\n        int a, b;\n        scanf("%d %d", &a, &b);\n        adj[a][b] = 1;\n        adj[b][a] = 1;\n    }\n    int start;\n    scanf("%d", &start);\n    bfs(start, v);\n    printf("\\n");\n    return 0;\n}`,
+        testCases: [{ name: "BFS Test", input: "4 4\n0 1\n0 2\n1 3\n2 3\n0", expectedOutput: "0 1 2 3" }]
+    },
+    {
+        id: 98,
+        title: "DFS Traversal of a Graph",
+        difficulty: "medium",
+        description: `Read V, E, E edges, and a start vertex. Using recursion (the call stack), print the depth-first traversal order starting from that vertex, space-separated. When visiting a vertex's neighbors, check them in increasing order of vertex number.`,
+        examples: [{ input: "4 4\\n0 1\\n0 2\\n1 3\\n2 3\\n0", output: "0 1 3 2" }],
+        starterCode: `#include <stdio.h>\n#define MAX 20\n\nint adj[MAX][MAX];\nint visited[MAX];\n\nvoid dfs(int cur, int v) {\n    // Mark visited, print cur, then recurse into unvisited neighbors\n    \n}\n\nint main() {\n    int v, e;\n    scanf("%d %d", &v, &e);\n    for (int i = 0; i < e; i++) {\n        int a, b;\n        scanf("%d %d", &a, &b);\n        adj[a][b] = 1;\n        adj[b][a] = 1;\n    }\n    int start;\n    scanf("%d", &start);\n    dfs(start, v);\n    printf("\\n");\n    return 0;\n}`,
+        testCases: [{ name: "DFS Test", input: "4 4\n0 1\n0 2\n1 3\n2 3\n0", expectedOutput: "0 1 3 2" }]
     }
 ];
 
