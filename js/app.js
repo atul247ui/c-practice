@@ -83,10 +83,34 @@ const CATEGORY_ICONS = {
 function initMonaco() {
     require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
     require(['vs/editor/editor.main'], function () {
+        monaco.editor.defineTheme('spaceDark', {
+            base: 'vs-dark',
+            inherit: true,
+            rules: [
+                { token: 'comment', foreground: '5c6488', fontStyle: 'italic' },
+                { token: 'keyword', foreground: '7c9cff' },
+                { token: 'number', foreground: 'ffcf7c' },
+                { token: 'string', foreground: '7ce8c0' },
+                { token: 'identifier', foreground: 'e8ecfb' },
+                { token: 'delimiter', foreground: '9aa3c7' },
+                { token: 'type', foreground: '5ee6ff' }
+            ],
+            colors: {
+                'editor.background': '#0a0e1a',
+                'editor.foreground': '#e8ecfb',
+                'editor.lineHighlightBackground': '#121729',
+                'editorLineNumber.foreground': '#3d456b',
+                'editorLineNumber.activeForeground': '#9aa3c7',
+                'editor.selectionBackground': '#2a3466',
+                'editorCursor.foreground': '#5ee6ff',
+                'editorIndentGuide.background': '#1a2038',
+                'editorGutter.background': '#0a0e1a'
+            }
+        });
         AppState.editor = monaco.editor.create(document.getElementById('monaco-editor'), {
             value: '// Select a question to start coding\n#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}',
             language: 'c',
-            theme: 'vs-dark',
+            theme: 'spaceDark',
             fontSize: 14,
             fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
             minimap: { enabled: false },
@@ -346,6 +370,10 @@ function submitCode() {
         return;
     }
 
+    // Stop the clock the moment Submit is pressed, pass or fail — the
+    // timer measures time-to-submit, not time-to-solve.
+    pauseTimer();
+
     const code = AppState.editor.getValue();
     showLoading();
     DOM.submitBtn.disabled = true;
@@ -363,7 +391,6 @@ function submitCode() {
 
                     updateStats();
                     renderQuestionsList();
-                    stopTimer();
                 }
             } else if (!results.offlineNotice) {
                 // Only record a mistake when this was a real, verified run.

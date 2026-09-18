@@ -1,41 +1,44 @@
 /* =====================================================================
-   Theme: "Amber Terminal" — a nod to the amber-phosphor CRT terminals
-   C was written on and taught on for decades. One accent (amber), a
-   quiet charcoal base, sage/rust reserved strictly for pass/fail
-   signal. No gradients: every surface is a flat, deliberate color.
+   Theme: "Deep Space" — a starfield backdrop behind frosted glass
+   panels. Cyan is the one "starlight" accent used for interaction and
+   focus; a dimmer nebula purple appears only in the background glow
+   and never competes with it for attention. Success/warning/error stay
+   in their own green/gold/rose lane so pass/fail signal is unambiguous.
    ===================================================================== */
 :root {
-    --bg-primary: #14161b;
-    --bg-secondary: #1a1d23;
-    --bg-tertiary: #22262e;
-    --bg-elevated: #262a33;
+    --bg-primary: #05070f;
+    --bg-secondary: #0b0f1d;
+    --bg-tertiary: #131a30;
+    --bg-elevated: #1a2140;
 
-    --text-primary: #e8e6dd;
-    --text-secondary: #9b9890;
-    --text-muted: #6b6963;
+    --text-primary: #e8ecfb;
+    --text-secondary: #9aa3c7;
+    --text-muted: #5c6488;
 
-    --accent-primary: #e3a13c;
-    --accent-secondary: #b97e2a;
-    --accent-wash: rgba(227, 161, 60, 0.12);
+    --accent-primary: #5ee6ff;
+    --accent-secondary: #7c9cff;
+    --accent-wash: rgba(94, 230, 255, 0.12);
 
-    --success: #7fae6a;
-    --success-bg: rgba(127, 174, 106, 0.14);
-    --warning: #b97e2a;
-    --warning-bg: rgba(185, 126, 42, 0.14);
-    --error: #c96654;
-    --error-bg: rgba(201, 102, 84, 0.14);
+    --nebula-purple: #7c5cff;
 
-    --easy: #7fae6a;
-    --medium: #e3a13c;
-    --hard: #c96654;
+    --success: #4ade80;
+    --success-bg: rgba(74, 222, 128, 0.14);
+    --warning: #fbbf24;
+    --warning-bg: rgba(251, 191, 36, 0.14);
+    --error: #fb7185;
+    --error-bg: rgba(251, 113, 133, 0.14);
 
-    --border-color: #2f333c;
-    --border-light: rgba(232, 230, 221, 0.08);
+    --easy: #4ade80;
+    --medium: #fbbf24;
+    --hard: #fb7185;
 
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-    --shadow-glow: 0 0 16px rgba(227, 161, 60, 0.25);
+    --border-color: #232c4f;
+    --border-light: rgba(232, 236, 251, 0.08);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 4, 0.4);
+    --shadow-md: 0 4px 14px rgba(0, 0, 4, 0.5);
+    --shadow-lg: 0 8px 28px rgba(0, 0, 4, 0.55);
+    --shadow-glow: 0 0 18px rgba(94, 230, 255, 0.3);
 
     --radius-sm: 4px;
     --radius-md: 6px;
@@ -68,6 +71,50 @@ body {
     background: var(--bg-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Starfield + Nebula Backdrop ===== */
+body {
+    position: relative;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Two soft, blurred glows suggesting distant nebulae. */
+body::before {
+    background:
+        radial-gradient(ellipse 900px 700px at 12% 8%, rgba(124, 92, 255, 0.16), transparent 60%),
+        radial-gradient(ellipse 800px 900px at 90% 85%, rgba(94, 230, 255, 0.10), transparent 60%);
+}
+
+/* A tiled field of tiny stars at a few sizes/brightnesses. */
+body::after {
+    background-image:
+        radial-gradient(1.6px 1.6px at 20px 30px, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.2px 1.2px at 90px 120px, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1.8px 1.8px at 150px 60px, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1.2px 1.2px at 210px 160px, rgba(255, 255, 255, 0.5), transparent),
+        radial-gradient(1.4px 1.4px at 60px 190px, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(1.2px 1.2px at 260px 40px, rgba(255, 255, 255, 0.55), transparent),
+        radial-gradient(1.6px 1.6px at 320px 220px, rgba(255, 255, 255, 0.75), transparent),
+        radial-gradient(1.2px 1.2px at 180px 260px, rgba(255, 255, 255, 0.5), transparent);
+    background-repeat: repeat;
+    background-size: 340px 280px;
+    opacity: 0.7;
+}
+
+/* Everything else renders above the backdrop. */
+.app-container {
+    position: relative;
+    z-index: 1;
+    background: transparent;
 }
 
 /* Custom Scrollbar */
@@ -103,9 +150,10 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 12px 24px;
-    background: var(--bg-secondary);
+    background: rgba(11, 15, 29, 0.72);
     border-bottom: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .logo {
@@ -121,6 +169,7 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 0 6px rgba(94, 230, 255, 0.45));
 }
 
 .logo h1 {
@@ -132,6 +181,7 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 0 6px rgba(94, 230, 255, 0.35));
 }
 
 .header-stats {
@@ -171,7 +221,9 @@ body {
 .results-panel {
     display: flex;
     flex-direction: column;
-    background: var(--bg-secondary);
+    background: rgba(11, 15, 29, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-right: 1px solid var(--border-color);
     overflow: hidden;
 }
@@ -216,7 +268,7 @@ body {
 .filter-dropdown select:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(227, 161, 60, 0.25);
+    box-shadow: 0 0 0 2px rgba(94, 230, 255, 0.25);
 }
 
 /* ===== Questions List ===== */
@@ -331,7 +383,9 @@ body {
 /* Question Details */
 .question-details {
     padding: 20px 24px;
-    background: var(--bg-secondary);
+    background: rgba(11, 15, 29, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border-color);
     max-height: 200px;
     overflow-y: auto;
@@ -451,7 +505,7 @@ body {
 }
 
 .btn-primary {
-    color: #1a1508;
+    color: #04121a;
     background: var(--accent-primary);
     box-shadow: var(--shadow-sm);
 }
@@ -766,7 +820,7 @@ body {
 }
 
 .mode-btn.active {
-    color: #1a1508;
+    color: #04121a;
     background: var(--accent-primary);
     box-shadow: var(--shadow-sm);
 }
@@ -783,7 +837,9 @@ body {
 .topics-panel {
     display: flex;
     flex-direction: column;
-    background: var(--bg-secondary);
+    background: rgba(11, 15, 29, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-right: 1px solid var(--border-color);
     overflow: hidden;
 }
@@ -859,7 +915,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-radius: 10px;
-    background: rgba(227, 161, 60, 0.18);
+    background: rgba(94, 230, 255, 0.18);
     color: var(--accent-primary);
 }
 
@@ -868,7 +924,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--bg-primary);
+    background: transparent;
 }
 
 .theory-content {
@@ -989,7 +1045,9 @@ body {
 .reference-panel {
     display: flex;
     flex-direction: column;
-    background: var(--bg-secondary);
+    background: rgba(11, 15, 29, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-left: 1px solid var(--border-color);
     overflow: hidden;
 }
@@ -1090,7 +1148,7 @@ body {
 .search-input:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(227, 161, 60, 0.25);
+    box-shadow: 0 0 0 2px rgba(94, 230, 255, 0.25);
 }
 
 .search-input::placeholder {
@@ -1541,7 +1599,7 @@ body {
 }
 
 .retry-btn:hover {
-    background: #b2503f;
+    background: #e0435f;
 }
 
 /* ===== Settings Button & Modal ===== */
