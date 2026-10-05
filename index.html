@@ -3,11 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0b0b">
     <meta name="description"
         content="Learn and practice C programming with theory, integrated code editor and automated testing">
     <title>C Practice Platform - Master C Programming</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
@@ -65,7 +67,13 @@
         </div>
 
         <!-- PRACTICE MODE -->
-        <main class="main-content" id="practice-mode">
+        <main class="main-content" id="practice-mode" data-pane="problem">
+            <nav class="pane-tabs" aria-label="Practice sections">
+                <button data-pane="list">Questions</button>
+                <button data-pane="problem" class="active">Problem</button>
+                <button data-pane="code">Code</button>
+                <button data-pane="results">Results</button>
+            </nav>
             <!-- Left Panel - Questions List -->
             <aside class="questions-panel">
                 <div class="panel-header">
@@ -170,7 +178,12 @@
         </main>
 
         <!-- LEARN MODE -->
-        <main class="learn-content" id="learn-mode" style="display: none;">
+        <main class="learn-content" id="learn-mode" data-pane="list" style="display: none;">
+            <nav class="pane-tabs" aria-label="Learn sections">
+                <button data-pane="list" class="active">Topics</button>
+                <button data-pane="lesson">Lesson</button>
+                <button data-pane="ref">Cheatsheet</button>
+            </nav>
             <!-- Left Panel - Topics List -->
             <aside class="topics-panel">
                 <div class="panel-header">
@@ -326,6 +339,7 @@
     <script src="js/theory.js"></script>
     <script src="js/checker.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/mobile.js"></script>
 </body>
 
 </html>

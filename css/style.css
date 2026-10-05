@@ -17,7 +17,7 @@
 
     --accent-primary: #5ee6ff;
     --accent-secondary: #7c9cff;
-    --accent-wash: rgba(94, 230, 255, 0.12);
+    --accent-wash: rgba(255, 138, 43, 0.12);
 
     --nebula-purple: #7c5cff;
 
@@ -38,7 +38,7 @@
     --shadow-sm: 0 1px 2px rgba(0, 0, 4, 0.4);
     --shadow-md: 0 4px 14px rgba(0, 0, 4, 0.5);
     --shadow-lg: 0 8px 28px rgba(0, 0, 4, 0.55);
-    --shadow-glow: 0 0 18px rgba(94, 230, 255, 0.3);
+    --shadow-glow: 0 0 18px rgba(255, 138, 43, 0.3);
 
     --radius-sm: 4px;
     --radius-md: 6px;
@@ -90,8 +90,8 @@ body::after {
 /* Two soft, blurred glows suggesting distant nebulae. */
 body::before {
     background:
-        radial-gradient(ellipse 900px 700px at 12% 8%, rgba(124, 92, 255, 0.16), transparent 60%),
-        radial-gradient(ellipse 800px 900px at 90% 85%, rgba(94, 230, 255, 0.10), transparent 60%);
+        radial-gradient(ellipse 900px 700px at 12% 8%, rgba(255, 138, 43, 0.16), transparent 60%),
+        radial-gradient(ellipse 800px 900px at 90% 85%, rgba(255, 138, 43, 0.10), transparent 60%);
 }
 
 /* A tiled field of tiny stars at a few sizes/brightnesses. */
@@ -150,7 +150,7 @@ body::after {
     justify-content: space-between;
     align-items: center;
     padding: 12px 24px;
-    background: rgba(11, 15, 29, 0.72);
+    background: rgba(17, 17, 17, 0.72);
     border-bottom: 1px solid var(--border-color);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -169,7 +169,7 @@ body::after {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 0 6px rgba(94, 230, 255, 0.45));
+    filter: drop-shadow(0 0 6px rgba(255, 138, 43, 0.45));
 }
 
 .logo h1 {
@@ -181,7 +181,7 @@ body::after {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 0 6px rgba(94, 230, 255, 0.35));
+    filter: drop-shadow(0 0 6px rgba(255, 138, 43, 0.35));
 }
 
 .header-stats {
@@ -221,7 +221,7 @@ body::after {
 .results-panel {
     display: flex;
     flex-direction: column;
-    background: rgba(11, 15, 29, 0.78);
+    background: rgba(17, 17, 17, 0.78);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-right: 1px solid var(--border-color);
@@ -268,7 +268,7 @@ body::after {
 .filter-dropdown select:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(94, 230, 255, 0.25);
+    box-shadow: 0 0 0 2px rgba(255, 138, 43, 0.25);
 }
 
 /* ===== Questions List ===== */
@@ -383,7 +383,7 @@ body::after {
 /* Question Details */
 .question-details {
     padding: 20px 24px;
-    background: rgba(11, 15, 29, 0.6);
+    background: rgba(17, 17, 17, 0.6);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border-color);
@@ -505,7 +505,7 @@ body::after {
 }
 
 .btn-primary {
-    color: #04121a;
+    color: var(--on-accent);
     background: var(--accent-primary);
     box-shadow: var(--shadow-sm);
 }
@@ -820,7 +820,7 @@ body::after {
 }
 
 .mode-btn.active {
-    color: #04121a;
+    color: var(--on-accent);
     background: var(--accent-primary);
     box-shadow: var(--shadow-sm);
 }
@@ -837,7 +837,7 @@ body::after {
 .topics-panel {
     display: flex;
     flex-direction: column;
-    background: rgba(11, 15, 29, 0.78);
+    background: rgba(17, 17, 17, 0.78);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-right: 1px solid var(--border-color);
@@ -915,7 +915,7 @@ body::after {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-radius: 10px;
-    background: rgba(94, 230, 255, 0.18);
+    background: rgba(255, 138, 43, 0.18);
     color: var(--accent-primary);
 }
 
@@ -1045,7 +1045,7 @@ body::after {
 .reference-panel {
     display: flex;
     flex-direction: column;
-    background: rgba(11, 15, 29, 0.78);
+    background: rgba(17, 17, 17, 0.78);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-left: 1px solid var(--border-color);
@@ -1148,7 +1148,7 @@ body::after {
 .search-input:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(94, 230, 255, 0.25);
+    box-shadow: 0 0 0 2px rgba(255, 138, 43, 0.25);
 }
 
 .search-input::placeholder {
@@ -1539,14 +1539,14 @@ body::after {
     gap: 12px;
     padding: 12px 16px;
     background: var(--error-bg);
-    border: 1px solid rgba(248, 81, 73, 0.3);
+    border: 1px solid rgba(255, 107, 107, 0.3);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .mistake-item:hover {
-    background: rgba(248, 81, 73, 0.25);
+    background: rgba(255, 107, 107, 0.25);
     transform: translateX(4px);
 }
 
@@ -1599,7 +1599,7 @@ body::after {
 }
 
 .retry-btn:hover {
-    background: #e0435f;
+    background: #e85a5a;
 }
 
 /* ===== Settings Button & Modal ===== */

@@ -87,24 +87,24 @@ function initMonaco() {
             base: 'vs-dark',
             inherit: true,
             rules: [
-                { token: 'comment', foreground: '5c6488', fontStyle: 'italic' },
-                { token: 'keyword', foreground: '7c9cff' },
-                { token: 'number', foreground: 'ffcf7c' },
-                { token: 'string', foreground: '7ce8c0' },
-                { token: 'identifier', foreground: 'e8ecfb' },
-                { token: 'delimiter', foreground: '9aa3c7' },
-                { token: 'type', foreground: '5ee6ff' }
+                { token: 'comment', foreground: '7d776f', fontStyle: 'italic' },
+                { token: 'keyword', foreground: 'ff8a2b' },
+                { token: 'number', foreground: 'ffc27a' },
+                { token: 'string', foreground: '9fd98a' },
+                { token: 'identifier', foreground: 'f4f2ef' },
+                { token: 'delimiter', foreground: 'b4aea6' },
+                { token: 'type', foreground: 'ffb36b' }
             ],
             colors: {
-                'editor.background': '#0a0e1a',
-                'editor.foreground': '#e8ecfb',
-                'editor.lineHighlightBackground': '#121729',
-                'editorLineNumber.foreground': '#3d456b',
-                'editorLineNumber.activeForeground': '#9aa3c7',
-                'editor.selectionBackground': '#2a3466',
-                'editorCursor.foreground': '#5ee6ff',
-                'editorIndentGuide.background': '#1a2038',
-                'editorGutter.background': '#0a0e1a'
+                'editor.background': '#0b0b0b',
+                'editor.foreground': '#f4f2ef',
+                'editor.lineHighlightBackground': '#151515',
+                'editorLineNumber.foreground': '#4a453f',
+                'editorLineNumber.activeForeground': '#b4aea6',
+                'editor.selectionBackground': '#4a2f14',
+                'editorCursor.foreground': '#ff8a2b',
+                'editorIndentGuide.background': '#222222',
+                'editorGutter.background': '#0b0b0b'
             }
         });
         AppState.editor = monaco.editor.create(document.getElementById('monaco-editor'), {
